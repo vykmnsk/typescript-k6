@@ -1,1 +1,1 @@
-Typescript setup
+Typescript setup.
