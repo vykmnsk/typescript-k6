@@ -10,3 +10,34 @@ export function numberUpTo(max: number, input?: number): number {
   if (num === 0) num = max;
   return num;
 }
+
+export function randomItem<T>(items: Array<T>): T {
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+export function randomItems<T>(items: readonly T[], numOfItems: number): T[] {
+  const shuffled = Array.from(items).sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, numOfItems);
+}
+
+export interface WeightedOption<T> {
+  option: T;
+  weight: number;
+}
+
+export function randomItemWithWeights<T>(items: Array<WeightedOption<T>>): T {
+  const totalWeight = items.reduce((pVal, cVal) => pVal + cVal.weight, 0);
+
+  if (totalWeight <= 0) {
+    throw Error("Sum of all weights should be greater than zero");
+  }
+
+  const threshold = Math.random() * totalWeight;
+
+  let runningTotalWeight = 0;
+  const item = items.find(
+    (el) => (runningTotalWeight += el.weight) > threshold
+  ) as WeightedOption<T>;
+
+  return item.option;
+}
