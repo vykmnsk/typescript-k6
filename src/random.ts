@@ -25,7 +25,7 @@ export interface WeightedOption<T> {
   weight: number;
 }
 
-export function randomItemWithWeights<T>(items: Array<WeightedOption<T>>): T {
+export function randomWeightedOption<T>(items: Array<WeightedOption<T>>): T {
   const totalWeight = items.reduce((pVal, cVal) => pVal + cVal.weight, 0);
 
   if (totalWeight <= 0) {
