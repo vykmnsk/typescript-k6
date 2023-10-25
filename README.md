@@ -8,4 +8,4 @@ yarn test
 
 ### Run load test
 
-yarn webpack && k6 run dist/<test-filename>.js
+yarn webpack && k6 run dist/[test-filename].js
