@@ -15,10 +15,19 @@ export function randomItem<T>(items: Array<T>): T {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-export function randomItems<T>(items: readonly T[], numOfItems: number): T[] {
-  const shuffled = Array.from(items).sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, numOfItems);
+export function randomItems<T>(arr: readonly T[], numItems: number): T[] {
+  // Create a copy to avoid mutation
+  const shuffledArr = arr.slice();
+
+  // shuffle to randomize
+  for (let i = shuffledArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledArr[i], shuffledArr[j]] = [shuffledArr[j], shuffledArr[i]];
+  }
+
+  return shuffledArr.slice(0, numItems);
 }
+
 
 export interface WeightedOption<T> {
   option: T;
