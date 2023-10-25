@@ -1,6 +1,8 @@
 import each from "jest-each";
 import { maskSecretValues } from "../common/utils";
 
+jest.mock("k6", () => ({}), { virtual: true });
+
 describe("Unit Test :: Utils", () => {
   each([
     ["", ""],
