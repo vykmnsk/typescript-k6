@@ -4,4 +4,8 @@ yarn install
 
 ### Run unit tests
 
-yarn jest
+yarn test
+
+### Run load test
+
+yarn webpack && k6 run dist/<test-filename>.js

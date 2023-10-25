@@ -4,7 +4,7 @@ import {
   randomItems,
   randomWeightedOption,
   WeightedOption,
-} from "../random";
+} from "../common/random";
 
 describe("numberUpTo", () => {
   it("gives returns same number if input upto max", () => {
@@ -58,7 +58,7 @@ describe("randomItems", () => {
     const checkOk = Object.values(resultStats).every(
       (r) => 900 < r && r < 1100
     );
-    console.log(JSON.stringify(resultStats));
+    // console.log(JSON.stringify(resultStats));
     expect(checkOk).toBe(true);
   });
 });
@@ -77,6 +77,7 @@ describe("randomItemWithWeights", () => {
       results.push(randomWeightedOption(testOptions));
     }
     const resultStats = arrayToStatsHash(results);
+    // console.log(JSON.stringify(resultStats));
     expect(resultStats.often).toBeGreaterThan(resultStats.medium);
     expect(resultStats.medium).toBeGreaterThan(resultStats.rare);
   });
