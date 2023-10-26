@@ -1,4 +1,4 @@
-import { fail, sleep } from "k6";
+import { fail, check, sleep } from "k6";
 
 export function retry(
   func: Function,
@@ -32,3 +32,21 @@ export function maskSecretValues(text: string, secretNames: string[]) {
   }
   return safeText;
 }
+
+export function assertNotEmpty(collection: any[], message: string) {
+  if (!check(collection, { [message]: (c) => c && c.length > 0 })) {
+    fail(`fail: ${message}`);
+  }
+}
+
+/**
+ * Generates random UUID.
+ * Copy of k6 helper from https://k6.io/docs/javascript-api/jslib/utils/uuidv4/
+ * @returns a UUID string, e.g. "0c730854-9f28-4a5e-90ab-4d694b75e53f"
+ */
+export const uuidv4 = (): string =>
+  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
