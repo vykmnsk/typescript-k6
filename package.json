@@ -6,6 +6,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "3.345.0",
+    "@aws-sdk/client-s3": "3.345.0",
     "@types/node": "17.0.31",
     "@types/jest": "^29.5.6",
     "@types/k6": "0.45.0",

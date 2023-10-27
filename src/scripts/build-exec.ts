@@ -31,8 +31,8 @@ async function buildExec(args: Arguments) {
       `${args.file}`,
       "--exit-on-running",
       "--include-system-env-vars",
-    ];    
-    const k6Exec = executeSpawnSync("k6 cloud", k6ExecArgs.split(" "), false, [
+    ];
+    const k6Exec = executeSpawnSync("k6 cloud", k6ExecArgs, false, [
       "inherit",
       "pipe",
       "inherit",
@@ -47,8 +47,8 @@ async function buildExec(args: Arguments) {
       `-e ENVIRONMENT=${args.environment}`,
     ];
 
-    if (args.environment === 'dev') {
-      k6ExecArgs = k6ExecArgs.concat(['-u 1', '-i 1', '--http-debug=full']);
+    if (args.environment === "dev") {
+      k6ExecArgs = k6ExecArgs.concat(["-u 1", "-i 1", "--http-debug=full"]);
     }
     const k6Exec = executeSpawnSync("k6 run", k6ExecArgs);
     if (k6Exec.status !== "0") {
