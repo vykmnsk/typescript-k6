@@ -1,10 +1,6 @@
-import {
-  GetSecretValueCommand,
-  SecretsManagerClient,
-} from "@aws-sdk/client-secrets-manager";
 import axios, { type AxiosError } from "axios";
+import { apiErrorMsg, fetchAwsSecret } from "./utils";
 
-const awsClient = new SecretsManagerClient({ region: "ap-southeast-2" });
 const WAIT_FOR_EXIT_SECONDS = 5;
 const failures: string[] = [];
 
@@ -51,22 +47,6 @@ async function warnDelayRun() {
   await delaySeconds(WAIT_FOR_EXIT_SECONDS);
 }
 
-async function fetchAwsSecret(id: string, name: string) {
-  const input = { SecretId: id };
-  const command = new GetSecretValueCommand(input);
-  const data = await awsClient.send(command);
-  if (!data.SecretString) {
-    throw Error(`AWS has no Secrets for ${JSON.stringify(input)}`);
-  }
-  const secret = JSON.parse(data.SecretString);
-  if (!secret[name]) {
-    throw Error(
-      `AWS has no Secret named '${name}' for ${JSON.stringify(input)})`
-    );
-  }
-  return secret[name] as string;
-}
-
 async function loginAPI(
   email: string,
   candidatePwd: string,
@@ -80,15 +60,6 @@ async function loginAPI(
     console.log(`ERROR on login ${email}: ${err as string}`);
     failures.push(email);
   }
-}
-
-function apiErrorMsg(err: AxiosError) {
-  if (err.response) {
-    return `${err.response.status} ${JSON.stringify(
-      err.response.data
-    ).substring(0, 250)}`;
-  }
-  return err.message;
 }
 
 async function fetchAuthToken(
